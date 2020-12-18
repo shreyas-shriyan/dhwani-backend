@@ -1,16 +1,16 @@
-const child = require('../models/child');
+const district = require('../models/district');
 
 const getDistrictController = async (req, res) => {
-
+    let state_id = req.query.state_id;
     try {
-        const children = await child.find()
+        const districts = await district.find({ state_id: state_id })
 
         res.json({
             success: true,
             status: 200,
-            message: 'Children details',
+            message: 'District Details',
             timestamp: new Date().getTime(),
-            children_profile: children,
+            district: districts,
         })
     }
     catch (err) {
@@ -18,29 +18,21 @@ const getDistrictController = async (req, res) => {
     }
 }
 
-const postChildController = async (req, res) => {
+const postDistrictController = async (req, res) => {
     let body = req.body
-    if (body.name && body.district_id) {
+    if (body.state_id && body.district_name) {
         try {
-            const temp = new child({
-                name: body.name,
-                sex: body.sex ? body.sex : "",
-                dob: body.dob ? body.dob : "",
-                father_name: body.father_name ? body.father_name : "",
-                mother_name: body.mother_name ? body.mother_name : "",
-                district_id: body.district_id,
-                photo: body.photo ? body.photo : "",
+            const temp = new district({
+                district_name: body.district_name,
+                state_id: body.state_id
             })
 
-            const savedChild = await temp.save()
-            const children = await child.find()
+            const savedDistrict = await temp.save()
 
             res.json({
                 success: true,
                 status: 200,
-                message: 'State detail',
-                timestamp: new Date().getTime(),
-                children_profile: children,
+                message: 'Operation performed successfully',
             })
         }
         catch (err) {
@@ -48,13 +40,13 @@ const postChildController = async (req, res) => {
         }
     }
     else {
-        if (!body.name) {
-            res.json({ error: 'name is required' })
+        if (!body.state_id) {
+            res.json({ error: 'state_id is required' })
         }
         else {
-            res.json({ error: 'district_id is required' })
+            res.json({ error: 'district_name is required' })
         }
     }
 }
 
-module.exports = { getChildController, postChildController }
+module.exports = { getDistrictController, postDistrictController }

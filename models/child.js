@@ -1,4 +1,3 @@
-const { number } = require('assert-plus');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 

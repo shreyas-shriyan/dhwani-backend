@@ -25,7 +25,6 @@ const getStateController = async (req, res) => {
 }
 
 const postStateController = async (req, res) => {
-    console.log("entered post request");
     if (req.body.state_name) {
         try {
             const temp = new state({
